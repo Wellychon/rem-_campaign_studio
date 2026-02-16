@@ -1,5 +1,5 @@
 import { useApp } from '@/context/AppContext';
-import { Users, Plus, Shield, TrendingUp, AlertTriangle } from 'lucide-react';
+import { Users, Plus, Shield, TrendingUp, AlertTriangle, Database, PlugZap, FileSpreadsheet, ServerCog } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
@@ -9,6 +9,7 @@ import { Slider } from '@/components/ui/slider';
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from 'recharts';
 import { useState } from 'react';
 import type { AudienceTwinGroup } from '@/types';
+import { Badge } from '@/components/ui/badge';
 
 const COLORS = ['#3B82F6', '#8B5CF6', '#10B981', '#F59E0B', '#EF4444', '#06B6D4'];
 
@@ -25,6 +26,11 @@ export default function Audiences() {
   const { audiences, addAudience, selectAudience } = useApp();
   const [open, setOpen] = useState(false);
   const [form, setForm] = useState({ nome: '', origem: 'segmento' as const, tamanho: [20000], descricao: '', filtros: '' });
+  const [dsStatus, setDsStatus] = useState<'conectado' | 'erro' | 'desconectado'>('conectado');
+  const [sql, setSql] = useState<string>('SELECT id, email, ltv, last_purchase FROM salesforce.contacts WHERE opt_in = true');
+  const [previewCols, setPreviewCols] = useState<string[]>(['id', 'email', 'ltv', 'last_purchase']);
+  const [rowCount, setRowCount] = useState<number>(200000);
+  const [sample, setSample] = useState<number>(20000);
 
   const handleCreate = () => {
     const newAud: AudienceTwinGroup = {
@@ -49,10 +55,14 @@ export default function Audiences() {
   return (
     <div className="space-y-6 animate-slide-up">
       <div className="flex items-center justify-between">
-        <div>
+        <div className="flex items-center gap-2">
+          <Database className="w-5 h-5 text-primary" />
           <h1 className="text-2xl font-bold text-foreground">Públicos (Gêmeos Digitais)</h1>
-          <p className="text-sm text-muted-foreground">Gerencie e configure seus públicos de simulação</p>
         </div>
+        <Badge variant="outline">frontend-only • dados simulados</Badge>
+      </div>
+      <p className="text-sm text-muted-foreground">Gerencie e configure seus públicos de simulação</p>
+      <div className="flex items-center justify-between">
         <Dialog open={open} onOpenChange={setOpen}>
           <DialogTrigger asChild>
             <Button size="sm"><Plus className="w-4 h-4 mr-1" /> Criar Público</Button>
@@ -83,6 +93,61 @@ export default function Audiences() {
             </div>
           </DialogContent>
         </Dialog>
+      </div>
+
+      {/* Fonte de Dados & SQL (mock) */}
+      <div className="bg-card rounded-xl border border-border p-5 shadow-card space-y-4">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            <PlugZap className="w-4 h-4" />
+            <p className="text-sm font-semibold text-card-foreground">Status da Conexão</p>
+          </div>
+          <div className={`flex items-center gap-2 text-xs px-2 py-1 rounded-full ${dsStatus === 'conectado' ? 'bg-success/10 text-success' : dsStatus === 'erro' ? 'bg-destructive/10 text-destructive' : 'bg-muted text-muted-foreground'}`}>
+            <span>{dsStatus === 'conectado' ? 'Conectado ao Banco de Dados' : dsStatus === 'erro' ? 'Erro de Conexão' : 'Desconectado'}</span>
+          </div>
+        </div>
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
+          <div className="lg:col-span-2">
+            <Label>SQL Customizado</Label>
+            <textarea className="w-full h-28 rounded-md border border-border bg-muted/40 p-2 text-sm" value={sql} onChange={(e) => setSql(e.target.value)} />
+            <div className="flex items-center gap-2 mt-2">
+              <Button variant="outline" size="sm" onClick={() => { setPreviewCols(['id', 'email', 'persona', 'engagement_score', 'device']); setRowCount(120345); toastPreview(); }}>Preview (mock)</Button>
+              <Button variant="ghost" size="sm" onClick={() => setDsStatus('conectado')}>Conectar</Button>
+              <Button variant="ghost" size="sm" onClick={() => setDsStatus('erro')}>Simular Erro</Button>
+              <Button variant="ghost" size="sm" onClick={() => setDsStatus('desconectado')}>Desconectar</Button>
+            </div>
+          </div>
+          <div className="bg-muted/40 rounded-lg p-3">
+            <div className="flex items-center gap-2 mb-2"><ServerCog className="w-4 h-4" /><p className="text-xs font-medium text-muted-foreground uppercase">Conexões Pré-config</p></div>
+            <div className="space-y-1">
+              <Button variant="outline" size="sm" className="w-full justify-between"><span>Salesforce</span><span className="text-[10px] text-muted-foreground">mock</span></Button>
+              <Button variant="outline" size="sm" className="w-full justify-between"><span>HubSpot</span><span className="text-[10px] text-muted-foreground">mock</span></Button>
+              <Button variant="outline" size="sm" className="w-full justify-between"><span>Upload CSV</span><FileSpreadsheet className="w-3 h-3" /></Button>
+            </div>
+          </div>
+        </div>
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+          <div>
+            <p className="text-xs text-muted-foreground">Última sincronização</p>
+            <p className="text-sm font-medium">{new Date().toLocaleString('pt-BR')}</p>
+          </div>
+          <div>
+            <p className="text-xs text-muted-foreground">Row Count</p>
+            <p className="text-sm font-medium">{rowCount.toLocaleString('pt-BR')}</p>
+          </div>
+          <div>
+            <Label>Usar amostra de N registros</Label>
+            <Input type="number" value={sample} onChange={(e) => setSample(parseInt(e.target.value || '0'))} />
+            {sample < 100 && <p className="text-[10px] text-warning mt-1">Aviso: amostra muito pequena (&lt;100)</p>}
+            {sample > 1000000 && <p className="text-[10px] text-destructive mt-1">Aviso: amostra muito grande (&gt;1M)</p>}
+          </div>
+        </div>
+        <div>
+          <p className="text-xs font-medium text-muted-foreground uppercase mb-2">Preview de Colunas (mock)</p>
+          <div className="flex flex-wrap gap-1">
+            {previewCols.map((c) => <span key={c} className="text-[11px] px-2 py-0.5 rounded-md bg-muted/50 text-muted-foreground">{c}</span>)}
+          </div>
+        </div>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5">
@@ -119,10 +184,18 @@ export default function Audiences() {
               </div>
 
               <p className="text-[10px] text-muted-foreground mt-3">{aud.filtros}</p>
+              <div className="mt-3">
+                <Button size="sm" variant="outline" onClick={() => selectAudience(aud.id)}>Simular com este público</Button>
+              </div>
             </div>
           );
         })}
       </div>
     </div>
   );
+}
+
+function toastPreview() {
+  // Lightweight inline toast substitute for this page only
+  try { (window as any).__twinsim_toast?.({ title: 'Preview gerado', description: 'Dados simulados (mock)' }); } catch {}
 }

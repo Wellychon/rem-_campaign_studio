@@ -97,6 +97,20 @@ export default function ComparePage() {
               </div>
             </div>
           )}
+
+          {/* Diferenças principais (mock IA) */}
+          <div className="bg-card rounded-xl border border-border p-5 shadow-card">
+            <p className="text-sm font-semibold text-card-foreground mb-2">Diferenças principais</p>
+            {compared.slice(0, 2).length === 2 ? (
+              <ul className="text-sm list-disc pl-5 text-muted-foreground">
+                <li>Open Rate: {(compared[0].kpis.open_rate * 100).toFixed(1)}% vs {(compared[1].kpis.open_rate * 100).toFixed(1)}% — assunto de {campaigns.find((c) => c.id === compared[0].campaign_id)?.nome?.split(' ')[0]} performou melhor</li>
+                <li>CTR: {(compared[0].kpis.ctr * 100).toFixed(2)}% vs {(compared[1].kpis.ctr * 100).toFixed(2)}% — CTA mais específico aumenta cliques</li>
+                <li>Risco: Unsub {(compared[0].kpis.unsub * 100).toFixed(3)}% vs {(compared[1].kpis.unsub * 100).toFixed(3)}% — considerar frequência</li>
+              </ul>
+            ) : (
+              <p className="text-xs text-muted-foreground">Selecione exatamente 2 para ver as diferenças principais.</p>
+            )}
+          </div>
         </>
       )}
     </div>

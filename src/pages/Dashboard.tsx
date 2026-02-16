@@ -93,6 +93,16 @@ export default function Dashboard() {
           <p className="text-xs text-muted-foreground mt-1">Teste com gêmeos digitais</p>
         </Link>
       </div>
+
+      {/* Placeholder de próxima função */}
+      <div className="bg-muted/40 rounded-xl border border-border p-5">
+        <div className="flex items-center justify-between">
+          <p className="text-sm font-semibold text-card-foreground">Em breve</p>
+          <span className="text-[10px] text-muted-foreground">frontend-only • dados simulados</span>
+        </div>
+        <p className="text-xs text-muted-foreground mt-2">Definir funcionalidade #3 — clique para priorizar.</p>
+        <Link to="/insights" className="inline-block mt-3 text-xs px-3 py-1 rounded-md bg-primary text-primary-foreground">Definir funcionalidade #3</Link>
+      </div>
     </div>
   );
 }

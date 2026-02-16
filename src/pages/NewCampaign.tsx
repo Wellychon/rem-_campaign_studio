@@ -29,7 +29,7 @@ export default function NewCampaign() {
   const { addCampaign, selectCampaign } = useApp();
   const navigate = useNavigate();
   const [modo, setModo] = useState<'editor_simples' | 'template' | 'import_sf'>('editor_simples');
-  const [form, setForm] = useState({ nome: '', subject: '', preheader: '', body: '', cta: '', links: '' as string, fromName: '', fromEmail: '', objetivo: 'awareness' as Campaign['objetivo'], frequencia: 'unica', tags: '' });
+  const [form, setForm] = useState({ nome: '', subject: '', preheader: '', body: '', cta: '', links: '' as string, fromName: '', fromEmail: '', objetivo: 'awareness' as Campaign['objetivo'], frequencia: 'unica', tags: '', abtest: false });
 
   const u = (field: string, value: string) => setForm((f) => ({ ...f, [field]: value }));
 
@@ -63,7 +63,7 @@ export default function NewCampaign() {
       objetivo: form.objetivo,
       data_hora_planejada: new Date().toISOString(),
       frequencia: form.frequencia,
-      tags: form.tags ? form.tags.split(',').map((t) => t.trim()) : [],
+      tags: [...(form.tags ? form.tags.split(',').map((t) => t.trim()) : []), ...(form.abtest ? ['abtest'] : [])],
     };
     addCampaign(campaign);
     selectCampaign(campaign.id);
@@ -127,7 +127,7 @@ export default function NewCampaign() {
           </TabsContent>
         </Tabs>
 
-        <div className="grid grid-cols-2 gap-4 pt-4 border-t border-border">
+  <div className="grid grid-cols-2 gap-4 pt-4 border-t border-border">
           <div><Label>Remetente (Nome)</Label><Input value={form.fromName} onChange={(e) => u('fromName', e.target.value)} placeholder="Nome do remetente" /></div>
           <div><Label>Remetente (Email)</Label><Input value={form.fromEmail} onChange={(e) => u('fromEmail', e.target.value)} placeholder="email@empresa.com" /></div>
           <div>
@@ -152,6 +152,10 @@ export default function NewCampaign() {
                 <SelectItem value="diaria">Diária</SelectItem>
               </SelectContent>
             </Select>
+          </div>
+          <div className="flex items-center gap-2 mt-6">
+            <input id="abtest" type="checkbox" checked={form.abtest} onChange={(e) => u('abtest', e.target.checked ? 'true' as any : '' as any)} />
+            <label htmlFor="abtest" className="text-sm text-card-foreground">Participar de A/B</label>
           </div>
           <div className="col-span-2"><Label>Tags (separadas por vírgula)</Label><Input value={form.tags} onChange={(e) => u('tags', e.target.value)} placeholder="promo, black-friday" /></div>
         </div>

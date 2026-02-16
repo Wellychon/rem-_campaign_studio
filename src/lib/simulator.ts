@@ -133,6 +133,9 @@ export function simulate(
 
   insights.push({ id: iid(), result_id: '', categoria: 'abtest', severidade: 'baixa', texto: 'Sugerimos testar variações de assunto e CTA para otimizar resultados.', evidencia: 'Baseado em análise de clusters divergentes' });
 
+  // Insight sazonal (mock IA)
+  insights.push({ id: iid(), result_id: '', categoria: 'timing', severidade: 'baixa', texto: 'Esse público é mais ativo próximo ao Natal e à época do 13º salário.', evidencia: 'Picos históricos nas semanas 50–52 e primeira quinzena de dezembro' });
+
   const deliverabilityScore = Math.min(100, Math.max(50, 100 - (bouncesSoft + bouncesHard) * 500 - spam * 5000 + rng() * 10));
   const reputacao = Math.min(100, Math.max(60, 100 - unsub * 2000 - spam * 10000 + rng() * 5));
 
