@@ -3,7 +3,7 @@ import KpiCard from '@/components/shared/KpiCard';
 import { Users, Mail, BarChart3, Play, ArrowRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
-import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, PieChart, Pie, Cell } from 'recharts';
+import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, PieChart, Pie, Cell, ScatterChart, Scatter } from 'recharts';
 
 const COLORS = ['#3B82F6', '#8B5CF6', '#10B981', '#F59E0B', '#EF4444', '#06B6D4'];
 
@@ -14,6 +14,28 @@ export default function Dashboard() {
 
   const recentResults = results.slice(-3).reverse();
   const clusterData = audiences[0]?.distribuicao_clusters.map((c) => ({ name: c.nome, value: c.percentual })) || [];
+  const baseAud = audiences[0];
+  const baseCamp = campaigns[0];
+  const baseOpen = recentResults[0]?.kpis.open_rate || avgOpen || 0.18;
+
+  // Mock validations (últimas 10 campanhas)
+  const validations = Array.from({ length: 10 }, (_, i) => {
+    const realOpen = baseOpen * (0.9 + (i % 3) * 0.03);
+    const prevOpen = baseOpen * (0.95 + (i % 2) * 0.04);
+    const errOpen = Math.abs(prevOpen - realOpen) / Math.max(realOpen, 0.0001);
+    return {
+      campanha: `${(baseCamp?.nome || 'Novacampteste').split(' ')[0]} #${i + 1}`,
+      data: new Date(Date.now() - i * 86400000).toLocaleDateString('pt-BR'),
+      publico_sim: baseAud?.nome || 'Público',
+      publico_real: baseAud?.nome || 'Público',
+      open_prev: prevOpen,
+      open_real: realOpen,
+      erro_pct: errOpen * 100,
+      status: errOpen < 0.05 ? 'OK' : 'Alerta',
+    };
+  });
+  const acuracia = 1 - validations.reduce((s, v) => s + v.erro_pct / 100, 0) / validations.length;
+  const dentro5 = validations.filter((v) => v.erro_pct < 5).length;
 
   return (
     <div className="space-y-6 animate-slide-up">
@@ -92,6 +114,63 @@ export default function Dashboard() {
           <h3 className="text-sm font-semibold text-card-foreground group-hover:text-success transition-colors">Rodar Simulação</h3>
           <p className="text-xs text-muted-foreground mt-1">Teste com gêmeos digitais</p>
         </Link>
+      </div>
+
+      {/* Dashboard: Resultados vs Simulados */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <div className="bg-card rounded-xl border border-border p-5 shadow-card">
+          <div className="flex items-center justify-between mb-3">
+            <h3 className="text-sm font-semibold text-card-foreground">Validação do Modelo</h3>
+            <div className="text-xs px-2 py-1 rounded-md bg-muted/50">Confiança: {(acuracia * 100).toFixed(0)}% | Últimas 10: {dentro5} dentro de ±5%</div>
+          </div>
+          <div className="overflow-x-auto">
+            <table className="w-full text-sm">
+              <thead>
+                <tr className="text-left text-muted-foreground">
+                  <th className="pb-2">Campanha</th>
+                  <th className="pb-2">Data</th>
+                  <th className="pb-2">Público simulado</th>
+                  <th className="pb-2">Público real</th>
+                  <th className="pb-2">Open Prev.</th>
+                  <th className="pb-2">Open Real</th>
+                  <th className="pb-2">Erro %</th>
+                  <th className="pb-2">Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                {validations.map((v, i) => (
+                  <tr key={i} className="border-t border-border">
+                    <td className="py-2 text-card-foreground">{v.campanha}</td>
+                    <td className="py-2 text-muted-foreground">{v.data}</td>
+                    <td className="py-2">{v.publico_sim}</td>
+                    <td className="py-2">{v.publico_real}</td>
+                    <td className="py-2">{(v.open_prev * 100).toFixed(1)}%</td>
+                    <td className="py-2">{(v.open_real * 100).toFixed(1)}%</td>
+                    <td className="py-2">{v.erro_pct.toFixed(2)}%</td>
+                    <td className="py-2">{v.status}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+          <div className="mt-3">
+            <button className="text-xs px-3 py-1 rounded-md border bg-muted hover:bg-muted/70">Recalibrar modelo</button>
+            <p className="text-[11px] text-muted-foreground mt-2">Acurácia = 1 − média(|prev − real|/real)</p>
+          </div>
+        </div>
+
+        <div className="bg-card rounded-xl border border-border p-5 shadow-card">
+          <h3 className="text-sm font-semibold text-card-foreground mb-3">Previsto vs Real (Scatter)</h3>
+          <ResponsiveContainer width="100%" height={260}>
+            <ScatterChart>
+              <XAxis type="number" dataKey="open_prev" name="Previsto" unit="%" domain={[0, (baseOpen * 1.5) * 100]} tickFormatter={(v) => `${v.toFixed(0)}%`} />
+              <YAxis type="number" dataKey="open_real" name="Real" unit="%" domain={[0, (baseOpen * 1.5) * 100]} tickFormatter={(v) => `${v.toFixed(0)}%`} />
+              <Tooltip cursor={{ strokeDasharray: '3 3' }} formatter={(val: number) => `${val.toFixed(1)}%`} />
+              <Scatter data={validations.map((v) => ({ open_prev: v.open_prev * 100, open_real: v.open_real * 100 }))} fill="#3B82F6" />
+            </ScatterChart>
+          </ResponsiveContainer>
+          <p className="text-[11px] text-muted-foreground mt-2">Linhas guia: ideal é ficar próximo da diagonal (Previsto≈Real).</p>
+        </div>
       </div>
 
       {/* Placeholder de próxima função */}

@@ -1,6 +1,6 @@
 import { useApp } from '@/context/AppContext';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { FlaskConical, Menu } from 'lucide-react';
+import { Menu } from 'lucide-react';
 import { useState } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
 import { LayoutDashboard, Users, Mail, PlusCircle, Play, BarChart3, Lightbulb, GitCompareArrows, Download, Sparkles } from 'lucide-react';
@@ -19,16 +19,22 @@ const navItems = [
 ];
 
 export default function TopBar() {
-  const { audiences, campaigns, selectedAudienceId, selectedCampaignId, selectAudience, selectCampaign } = useApp();
+  const { audiences, campaigns, selectedAudienceId, selectedCampaignId, selectAudience, selectCampaign, toggleSidebar, sidebarOpen } = useApp();
   const [mobileOpen, setMobileOpen] = useState(false);
   const location = useLocation();
 
   return (
     <>
       <header className="h-14 border-b border-border bg-card flex items-center justify-between px-4 shrink-0">
-        <button className="md:hidden p-2 rounded-lg hover:bg-secondary" onClick={() => setMobileOpen(!mobileOpen)}>
-          <Menu className="w-5 h-5" />
-        </button>
+        <div className="flex items-center gap-2">
+          <button className="md:hidden p-2 rounded-lg hover:bg-secondary" onClick={() => setMobileOpen(!mobileOpen)} aria-label="Abrir navegação">
+            <Menu className="w-5 h-5" />
+          </button>
+          <button className="hidden md:inline-flex p-2 rounded-lg hover:bg-secondary" onClick={toggleSidebar} aria-label="Alternar sidebar">
+            <Menu className="w-5 h-5" />
+          </button>
+          <img src="/rami-logo.svg" alt="Ramí TestLab" className="h-7 w-auto" />
+        </div>
 
         <div className="flex items-center gap-3 ml-auto">
           <div className="flex items-center gap-2">
@@ -64,10 +70,8 @@ export default function TopBar() {
         <div className="md:hidden fixed inset-0 z-50 bg-sidebar/95 backdrop-blur-sm">
           <div className="flex items-center justify-between px-5 py-5 border-b border-sidebar-border">
             <div className="flex items-center gap-2.5">
-              <div className="w-8 h-8 rounded-lg gradient-primary flex items-center justify-center">
-                <FlaskConical className="w-4 h-4 text-primary-foreground" />
-              </div>
-              <span className="text-sm font-bold text-sidebar-accent-foreground">TwinSim Email Lab</span>
+              <img src="/rami-logo.svg" alt="Ramí TestLab" className="h-8 w-auto" />
+              <span className="text-sm font-bold text-sidebar-accent-foreground">Ramí TestLab</span>
             </div>
             <button className="text-sidebar-foreground p-2" onClick={() => setMobileOpen(false)}>✕</button>
           </div>

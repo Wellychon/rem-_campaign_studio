@@ -1,0 +1,85 @@
+/* Ramí brand demo styles: high-contrast, minimal, Montserrat font */
+.rami {
+  --rami-bg: #ffffff;
+  --rami-text: #0b0f19;
+  --rami-muted: #6b7280;
+  --rami-primary: #1d4ed8; /* blue 700 */
+  --rami-primary-contrast: #ffffff;
+  --rami-accent: #c2410c; /* burnt orange 700 */
+  --rami-accent-contrast: #ffffff;
+  --rami-card-bg: #f9fafb;
+  --rami-card-border: #e5e7eb;
+  --rami-radius: 12px;
+
+  font-family: "Montserrat", "Inter", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  color: var(--rami-text);
+}
+
+.rami-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--rami-card-border);
+  background: var(--rami-bg);
+}
+
+.rami-brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.rami-row {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+@media (max-width: 960px) { .rami-row { grid-template-columns: 1fr 1fr; } }
+@media (max-width: 640px) { .rami-row { grid-template-columns: 1fr; } }
+
+.rami-card {
+  background: var(--rami-card-bg);
+  border: 1px solid var(--rami-card-border);
+  border-radius: var(--rami-radius);
+  padding: 16px;
+}
+
+.rami-kpi { display: flex; flex-direction: column; gap: 8px; }
+.rami-kpi .label { color: var(--rami-muted); font-weight: 600; }
+.rami-kpi .value { font-size: 24px; font-weight: 800; }
+
+.rami-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 16px;
+  border-radius: var(--rami-radius);
+  font-weight: 700;
+  text-decoration: none;
+  border: none;
+  cursor: pointer;
+}
+.rami-button.primary { background: var(--rami-primary); color: var(--rami-primary-contrast); }
+.rami-button.accent { background: var(--rami-accent); color: var(--rami-accent-contrast); }
+
+.rami-badge {
+  display: inline-block;
+  padding: 4px 8px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 800;
+}
+.rami-badge.media { background: #fde68a; color: #7c2d12; } /* yellow */
+.rami-badge.alta { background: #fecaca; color: #7f1d1d; }  /* red */
+.rami-badge.baixa { background: #d1fae5; color: #064e3b; } /* green */
+
+.rami-section-title {
+  font-size: 18px;
+  font-weight: 800;
+  margin: 0 0 8px 0;
+}
+
+.rami-type h1 { font-size: 32px; font-weight: 800; }
+.rami-type h2 { font-size: 24px; font-weight: 700; }
+.rami-type p { color: var(--rami-muted); }

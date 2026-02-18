@@ -86,7 +86,8 @@
   }
   body {
     @apply bg-background text-foreground font-sans antialiased;
-    font-family: 'Inter', system-ui, sans-serif;
+    /* Prefer Futura; fall back to Montserrat (loaded) and Inter/system */
+    font-family: 'Futura', 'Montserrat', 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
   }
 }
 

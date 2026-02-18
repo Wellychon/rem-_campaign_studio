@@ -16,6 +16,7 @@ import ComparePage from "@/pages/ComparePage";
 import ExportPage from "@/pages/ExportPage";
 import NotFound from "@/pages/NotFound";
 import AbTests from "@/pages/AbTests";
+import BrandDemo from "@/pages/BrandDemo";
 
 const queryClient = new QueryClient();
 
@@ -39,6 +40,7 @@ const App = () => (
               <Route path="/insights" element={<InsightsPage />} />
               <Route path="/comparar" element={<ComparePage />} />
               <Route path="/abtests" element={<AbTests />} />
+              <Route path="/marca" element={<BrandDemo />} />
               <Route path="/exportar" element={<ExportPage />} />
             </Route>
             <Route path="*" element={<NotFound />} />

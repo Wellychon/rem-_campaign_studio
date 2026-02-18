@@ -1,11 +1,13 @@
 import { Outlet } from 'react-router-dom';
 import AppSidebar from './AppSidebar';
+import { useApp } from '@/context/AppContext';
 import TopBar from './TopBar';
 
 export default function AppLayout() {
+  const { sidebarOpen } = useApp();
   return (
     <div className="flex h-screen overflow-hidden">
-      <AppSidebar />
+      {sidebarOpen && <AppSidebar />}
       <div className="flex-1 flex flex-col overflow-hidden min-w-0">
         <TopBar />
         <main className="flex-1 overflow-auto p-4 md:p-6">

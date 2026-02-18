@@ -1,5 +1,5 @@
 import { NavLink, useLocation } from 'react-router-dom';
-import { LayoutDashboard, Users, Mail, PlusCircle, Play, BarChart3, Lightbulb, GitCompareArrows, Download, FlaskConical, Sparkles } from 'lucide-react';
+import { LayoutDashboard, Users, Mail, PlusCircle, Play, BarChart3, Lightbulb, GitCompareArrows, Download, Sparkles, Palette } from 'lucide-react';
 
 const navItems = [
   { label: 'Dashboard', path: '/dashboard', icon: LayoutDashboard },
@@ -10,6 +10,7 @@ const navItems = [
   { label: 'Insights', path: '/insights', icon: Lightbulb },
   { label: 'Comparar', path: '/comparar', icon: GitCompareArrows },
   { label: 'Testes A/B', path: '/abtests', icon: Sparkles },
+  { label: 'Marca (Ramí)', path: '/marca', icon: Palette },
   { label: 'Exportar', path: '/exportar', icon: Download },
 ];
 
@@ -19,12 +20,10 @@ export default function AppSidebar() {
   return (
     <aside className="hidden md:flex w-[260px] flex-col bg-sidebar text-sidebar-foreground border-r border-sidebar-border shrink-0">
       <div className="flex items-center gap-2.5 px-5 py-5 border-b border-sidebar-border">
-        <div className="w-8 h-8 rounded-lg gradient-primary flex items-center justify-center">
-          <FlaskConical className="w-4 h-4 text-primary-foreground" />
-        </div>
+        <img src="/rami-logo.svg" alt="Ramí TestLab" className="h-8 w-auto" />
         <div>
-          <h1 className="text-sm font-bold text-sidebar-accent-foreground tracking-tight">TwinSim</h1>
-          <p className="text-[10px] text-sidebar-foreground opacity-70 -mt-0.5">Email Lab</p>
+          <h1 className="text-sm font-bold text-sidebar-accent-foreground tracking-tight">Ramí TestLab</h1>
+          <p className="text-[10px] text-sidebar-foreground opacity-70 -mt-0.5">Plataforma Interna de Testes</p>
         </div>
       </div>
 
@@ -64,7 +63,7 @@ export default function AppSidebar() {
       </nav>
 
       <div className="px-4 py-3 border-t border-sidebar-border">
-        <p className="text-[10px] text-sidebar-foreground opacity-50">v1.0 — Protótipo Demo</p>
+        <p className="text-[10px] text-sidebar-foreground opacity-50">v1.0 — Ramí Demo</p>
       </div>
     </aside>
   );

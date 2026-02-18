@@ -11,6 +11,7 @@ interface AppState {
   insights: Insight[];
   selectedAudienceId: string | null;
   selectedCampaignId: string | null;
+  sidebarOpen: boolean;
 }
 
 interface AppContextType extends AppState {
@@ -27,6 +28,8 @@ interface AppContextType extends AppState {
   getResultForJob: (jobId: string) => SimulationResult | undefined;
   getInsightsForResult: (resultId: string) => Insight[];
   getResultsWithDetails: () => Array<SimulationResult & { audienceName: string; campaignName: string }>;
+  setSidebarOpen: (open: boolean) => void;
+  toggleSidebar: () => void;
 }
 
 const STORAGE_KEY = 'twinsim-state';
@@ -44,13 +47,21 @@ function loadState(): AppState {
     insights: initialInsights,
     selectedAudienceId: 'aud-001',
     selectedCampaignId: 'camp-001',
+    sidebarOpen: true,
   };
 }
 
 const AppContext = createContext<AppContextType | null>(null);
 
 export function AppProvider({ children }: { children: ReactNode }) {
-  const [state, setState] = useState<AppState>(loadState);
+  const [state, setState] = useState<AppState>(() => {
+    const s = loadState();
+    // Backward compatibility if stored state lacks sidebarOpen
+    if (typeof (s as any).sidebarOpen === 'undefined') {
+      (s as any).sidebarOpen = true;
+    }
+    return s;
+  });
 
   useEffect(() => {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
@@ -62,6 +73,8 @@ export function AppProvider({ children }: { children: ReactNode }) {
   const addAudience = useCallback((a: AudienceTwinGroup) => setState((s) => ({ ...s, audiences: [...s.audiences, a] })), []);
   const addCampaign = useCallback((c: Campaign) => setState((s) => ({ ...s, campaigns: [...s.campaigns, c] })), []);
   const deleteCampaign = useCallback((id: string) => setState((s) => ({ ...s, campaigns: s.campaigns.filter((c) => c.id !== id) })), []);
+  const setSidebarOpen = useCallback((open: boolean) => setState((s) => ({ ...s, sidebarOpen: open })), []);
+  const toggleSidebar = useCallback(() => setState((s) => ({ ...s, sidebarOpen: !s.sidebarOpen })), []);
 
   const startSimulation = useCallback((audienceId: string, campaignId: string) => {
     const jobId = `job-${Date.now()}`;
@@ -103,7 +116,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
 
   return (
     <AppContext.Provider
-      value={{ ...state, selectAudience, selectCampaign, addAudience, addCampaign, deleteCampaign, startSimulation, completeSimulation, getAudience, getCampaign, getResult, getResultForJob, getInsightsForResult, getResultsWithDetails }}
+      value={{ ...state, selectAudience, selectCampaign, addAudience, addCampaign, deleteCampaign, startSimulation, completeSimulation, getAudience, getCampaign, getResult, getResultForJob, getInsightsForResult, getResultsWithDetails, setSidebarOpen, toggleSidebar }}
     >
       {children}
     </AppContext.Provider>
