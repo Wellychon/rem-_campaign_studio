@@ -55,8 +55,10 @@ export const initialCampaigns: Campaign[] = [
     modo: 'editor_simples',
     subject: '🔥 Só hoje: até 60% OFF para você!',
     preheader: 'Ofertas exclusivas para clientes especiais',
-    body_html: '<h1>Black Friday Especial</h1><p>Aproveite descontos de até 60% em produtos selecionados. Oferta válida apenas hoje!</p>',
-    body_text: 'Black Friday Especial - Aproveite descontos de até 60% em produtos selecionados.',
+    body_html:
+      '<div style="max-width:620px;margin:0 auto;font-family:Inter,Segoe UI,Arial,sans-serif;color:#111827;line-height:1.55;"><div style="padding:20px 0;border-bottom:1px solid #E5E7EB;"><img src="/logo.png" alt="Remí" style="width:38px;height:38px;vertical-align:middle;border-radius:8px;"/><span style="font-size:20px;font-weight:700;margin-left:10px;vertical-align:middle;">Remí</span></div><div style="padding:24px 0;"><p style="font-size:12px;color:#6B7280;margin:0 0 10px;">Oferta VIP • Black Friday</p><h1 style="font-size:28px;line-height:1.2;margin:0 0 16px;">Até 60% OFF em itens selecionados</h1><p style="margin:0 0 14px;">Olá! Selecionamos uma vitrine especial para o seu perfil com descontos agressivos em produtos de alta conversão.</p><p style="margin:0 0 14px;">A campanha fica disponível até hoje às 23:59 e alguns itens já estão em baixa disponibilidade.</p><ul style="margin:0 0 16px 18px;padding:0;"><li>Frete grátis acima de R$199</li><li>Cupom extra para clientes recorrentes</li><li>Parcelamento em até 10x sem juros</li></ul><p style="margin:0 0 18px;">Clique no botão para abrir sua vitrine personalizada.</p><a href="https://loja.exemplo.com/blackfriday" style="display:inline-block;background:#2563EB;color:#fff;text-decoration:none;padding:12px 18px;border-radius:8px;font-weight:600;">Garantir Minha Oferta</a></div><div style="border-top:1px solid #E5E7EB;padding:18px 0 6px;"><p style="font-size:12px;color:#6B7280;margin:0 0 6px;">Você recebeu este e-mail por estar inscrito(a) nas comunicações da Remí.</p><p style="font-size:12px;color:#6B7280;margin:0;">Remí • Av. Paulista, 1000 • São Paulo/SP • <a href="#" style="color:#2563EB;">Cancelar inscrição</a></p></div></div>',
+    body_text:
+      'Oferta VIP Black Friday: até 60% OFF em itens selecionados. A campanha fica disponível até 23:59, com frete grátis acima de R$199, cupom extra para clientes recorrentes e parcelamento em até 10x sem juros. Acesse sua vitrine personalizada e aproveite as ofertas de hoje.',
     cta_principal: 'Garantir Minha Oferta',
     links: [
       { label: 'Ver Ofertas', url: 'https://loja.exemplo.com/blackfriday' },
@@ -76,8 +78,10 @@ export const initialCampaigns: Campaign[] = [
     modo: 'template',
     subject: 'As melhores dicas para começar 2025 com o pé direito',
     preheader: 'Tendências, dicas e novidades para você',
-    body_html: '<h1>Newsletter Janeiro 2025</h1><p>Confira as principais tendências e novidades do mercado.</p>',
-    body_text: 'Newsletter Janeiro 2025 - Confira as principais tendências.',
+    body_html:
+      '<div style="max-width:620px;margin:0 auto;font-family:Inter,Segoe UI,Arial,sans-serif;color:#111827;line-height:1.55;"><div style="padding:20px 0;border-bottom:1px solid #E5E7EB;"><img src="/logo.png" alt="Remí" style="width:38px;height:38px;vertical-align:middle;border-radius:8px;"/><span style="font-size:20px;font-weight:700;margin-left:10px;vertical-align:middle;">Remí</span></div><div style="padding:24px 0;"><p style="font-size:12px;color:#6B7280;margin:0 0 10px;">Newsletter mensal • Edição de Janeiro</p><h1 style="font-size:26px;line-height:1.25;margin:0 0 16px;">Tendências e ações práticas para começar 2025</h1><p style="margin:0 0 14px;">Preparamos uma edição objetiva para você tomar decisões melhores nas próximas campanhas.</p><h3 style="font-size:18px;margin:18px 0 8px;">Nesta edição</h3><ol style="margin:0 0 16px 18px;padding:0;"><li>Tendências de comportamento de compra no digital</li><li>Checklist de automações para aumentar conversão</li><li>Benchmark de campanhas por segmento</li><li>2 testes A/B que você pode rodar esta semana</li></ol><p style="margin:0 0 18px;">Tempo de leitura: 4 minutos.</p><a href="https://blog.exemplo.com" style="display:inline-block;background:#2563EB;color:#fff;text-decoration:none;padding:12px 18px;border-radius:8px;font-weight:600;">Ler Matéria Completa</a></div><div style="border-top:1px solid #E5E7EB;padding:18px 0 6px;"><p style="font-size:12px;color:#6B7280;margin:0 0 6px;">Equipe de Conteúdo Remí</p><p style="font-size:12px;color:#6B7280;margin:0;">Preferências de e-mail • <a href="#" style="color:#2563EB;">Gerenciar assinatura</a></p></div></div>',
+    body_text:
+      'Newsletter de Janeiro com tendências de compra digital, checklist de automações, benchmark por segmento e testes A/B recomendados para a semana. Leitura rápida com ações práticas para melhorar performance.',
     cta_principal: 'Ler Matéria Completa',
     links: [
       { label: 'Blog', url: 'https://blog.exemplo.com' },
@@ -96,8 +100,10 @@ export const initialCampaigns: Campaign[] = [
     modo: 'editor_simples',
     subject: 'Convite: Webinar gratuito sobre tendências digitais 2025',
     preheader: 'Reserve sua vaga - vagas limitadas',
-    body_html: '<h1>Webinar Exclusivo</h1><p>Participe do nosso webinar sobre as principais tendências digitais para 2025.</p>',
-    body_text: 'Webinar Exclusivo - Participe do nosso webinar sobre tendências digitais 2025.',
+    body_html:
+      '<div style="max-width:620px;margin:0 auto;font-family:Inter,Segoe UI,Arial,sans-serif;color:#111827;line-height:1.55;"><div style="padding:20px 0;border-bottom:1px solid #E5E7EB;"><img src="/logo.png" alt="Remí" style="width:38px;height:38px;vertical-align:middle;border-radius:8px;"/><span style="font-size:20px;font-weight:700;margin-left:10px;vertical-align:middle;">Remí</span></div><div style="padding:24px 0;"><p style="font-size:12px;color:#6B7280;margin:0 0 10px;">Convite oficial • Evento ao vivo</p><h1 style="font-size:26px;line-height:1.25;margin:0 0 16px;">Webinar: Tendências Digitais 2025</h1><p style="margin:0 0 14px;">Você está convidado(a) para uma sessão exclusiva com especialistas em CRM, dados e performance.</p><div style="background:#F9FAFB;border:1px solid #E5E7EB;border-radius:10px;padding:12px 14px;margin:0 0 16px;"><p style="margin:0 0 4px;"><strong>Data:</strong> 10/02</p><p style="margin:0 0 4px;"><strong>Horário:</strong> 14h (BRT)</p><p style="margin:0;"><strong>Duração:</strong> 50 min + Q&A</p></div><p style="margin:0 0 18px;">Ao confirmar presença, você recebe o link da transmissão e o material de apoio em PDF.</p><a href="https://eventos.exemplo.com/webinar-2025" style="display:inline-block;background:#2563EB;color:#fff;text-decoration:none;padding:12px 18px;border-radius:8px;font-weight:600;">Inscrever-se Agora</a></div><div style="border-top:1px solid #E5E7EB;padding:18px 0 6px;"><p style="font-size:12px;color:#6B7280;margin:0 0 6px;">Eventos Remí • Conteúdo para líderes de marketing</p><p style="font-size:12px;color:#6B7280;margin:0;">Dúvidas? responda este e-mail • <a href="#" style="color:#2563EB;">Política de privacidade</a></p></div></div>',
+    body_text:
+      'Convite para webinar ao vivo em 10/02 às 14h com especialistas em CRM, dados e performance. Duração de 50 minutos + perguntas. Inscreva-se para receber o link e material de apoio.',
     cta_principal: 'Inscrever-se Agora',
     links: [
       { label: 'Página do Evento', url: 'https://eventos.exemplo.com/webinar-2025' },

@@ -17,6 +17,8 @@ import ExportPage from "@/pages/ExportPage";
 import NotFound from "@/pages/NotFound";
 import AbTests from "@/pages/AbTests";
 import BrandDemo from "@/pages/BrandDemo";
+import ModelPerformance from "@/pages/ModelPerformance";
+import LearnMore from "@/pages/LearnMore";
 
 const queryClient = new QueryClient();
 
@@ -35,11 +37,13 @@ const App = () => (
               <Route path="/campanhas" element={<CampaignList />} />
               <Route path="/campanhas/nova" element={<NewCampaign />} />
               <Route path="/simular" element={<Simulate />} />
+              <Route path="/performance-modelo" element={<ModelPerformance />} />
               <Route path="/resultados" element={<Results />} />
               <Route path="/resultados/:id" element={<Results />} />
               <Route path="/insights" element={<InsightsPage />} />
               <Route path="/comparar" element={<ComparePage />} />
               <Route path="/abtests" element={<AbTests />} />
+              <Route path="/aprender-mais" element={<LearnMore />} />
               <Route path="/marca" element={<BrandDemo />} />
               <Route path="/exportar" element={<ExportPage />} />
             </Route>

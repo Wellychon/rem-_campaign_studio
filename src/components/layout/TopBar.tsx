@@ -1,31 +1,30 @@
 import { useApp } from '@/context/AppContext';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Menu } from 'lucide-react';
+import { Menu, X } from 'lucide-react';
 import { useState } from 'react';
-import { NavLink, useLocation } from 'react-router-dom';
-import { LayoutDashboard, Users, Mail, PlusCircle, Play, BarChart3, Lightbulb, GitCompareArrows, Download, Sparkles } from 'lucide-react';
+import { NavLink } from 'react-router-dom';
+import { LayoutDashboard, Users, Mail, PlusCircle, Play, Cpu, Sparkles, Lightbulb, GraduationCap } from 'lucide-react';
+import BrandLockup from './BrandLockup';
 
 const navItems = [
   { label: 'Dashboard', path: '/dashboard', icon: LayoutDashboard },
   { label: 'Públicos', path: '/publicos', icon: Users },
   { label: 'Campanhas', path: '/campanhas', icon: Mail },
   { label: 'Nova Campanha', path: '/campanhas/nova', icon: PlusCircle },
-  { label: 'Simular', path: '/simular', icon: Play },
-  { label: 'Resultados', path: '/resultados', icon: BarChart3 },
-  { label: 'Insights', path: '/insights', icon: Lightbulb },
-  { label: 'Comparar', path: '/comparar', icon: GitCompareArrows },
+  { label: 'Simulações', path: '/simular', icon: Play },
+  { label: 'Performance do Modelo', path: '/performance-modelo', icon: Cpu },
   { label: 'Testes A/B', path: '/abtests', icon: Sparkles },
-  { label: 'Exportar', path: '/exportar', icon: Download },
+  { label: 'Insights', path: '/insights', icon: Lightbulb },
+  { label: 'Aprender Mais', path: '/aprender-mais', icon: GraduationCap },
 ];
 
 export default function TopBar() {
-  const { audiences, campaigns, selectedAudienceId, selectedCampaignId, selectAudience, selectCampaign, toggleSidebar, sidebarOpen } = useApp();
+  const { audiences, campaigns, selectedAudienceId, selectedCampaignId, selectAudience, selectCampaign, toggleSidebar } = useApp();
   const [mobileOpen, setMobileOpen] = useState(false);
-  const location = useLocation();
 
   return (
     <>
-      <header className="h-14 border-b border-border bg-card flex items-center justify-between px-4 shrink-0">
+      <header className="h-16 rounded-2xl border border-border bg-card/95 backdrop-blur-sm shadow-[0_8px_24px_rgba(15,23,42,0.08)] flex items-center justify-between px-4 shrink-0 animate-fade-in-fast">
         <div className="flex items-center gap-2">
           <button className="md:hidden p-2 rounded-lg hover:bg-secondary" onClick={() => setMobileOpen(!mobileOpen)} aria-label="Abrir navegação">
             <Menu className="w-5 h-5" />
@@ -33,7 +32,7 @@ export default function TopBar() {
           <button className="hidden md:inline-flex p-2 rounded-lg hover:bg-secondary" onClick={toggleSidebar} aria-label="Alternar sidebar">
             <Menu className="w-5 h-5" />
           </button>
-          <img src="/rami-logo.svg" alt="Ramí TestLab" className="h-7 w-auto" />
+          <BrandLockup iconSize={52} />
         </div>
 
         <div className="flex items-center gap-3 ml-auto">
@@ -67,31 +66,33 @@ export default function TopBar() {
       </header>
 
       {mobileOpen && (
-        <div className="md:hidden fixed inset-0 z-50 bg-sidebar/95 backdrop-blur-sm">
-          <div className="flex items-center justify-between px-5 py-5 border-b border-sidebar-border">
-            <div className="flex items-center gap-2.5">
-              <img src="/rami-logo.svg" alt="Ramí TestLab" className="h-8 w-auto" />
-              <span className="text-sm font-bold text-sidebar-accent-foreground">Ramí TestLab</span>
+        <div className="md:hidden fixed inset-0 z-50 bg-slate-900/30 backdrop-blur-sm animate-fade-in-fast" onClick={() => setMobileOpen(false)}>
+          <div className="h-full w-[84%] max-w-[320px] bg-sidebar border-r border-sidebar-border rounded-r-3xl shadow-[0_12px_28px_rgba(15,23,42,0.2)] animate-sidebar-in" onClick={(e) => e.stopPropagation()}>
+            <div className="flex items-center justify-between px-5 py-5 border-b border-sidebar-border">
+              <div className="flex items-center gap-2.5">
+                <BrandLockup iconSize={52} />
+              </div>
+              <button className="text-textSecondary p-2" onClick={() => setMobileOpen(false)}><X className="w-4 h-4" /></button>
             </div>
-            <button className="text-sidebar-foreground p-2" onClick={() => setMobileOpen(false)}>✕</button>
+            <nav className="py-4 px-3 space-y-1">
+              {navItems.map((item, index) => (
+                <NavLink
+                  key={item.path}
+                  to={item.path}
+                  onClick={() => setMobileOpen(false)}
+                  className={({ isActive }) =>
+                    `flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium animate-nav-item-in ${
+                      isActive ? 'bg-brand text-white shadow-[0_8px_18px_rgba(37,99,235,0.26)]' : 'text-textSecondary hover:bg-sidebar-accent hover:text-brand'
+                    }`
+                  }
+                  style={{ animationDelay: `${Math.min(index * 20, 160)}ms` }}
+                >
+                  <item.icon className="w-4 h-4" />
+                  {item.label}
+                </NavLink>
+              ))}
+            </nav>
           </div>
-          <nav className="py-4 px-3 space-y-1">
-            {navItems.map((item) => (
-              <NavLink
-                key={item.path}
-                to={item.path}
-                onClick={() => setMobileOpen(false)}
-                className={({ isActive }) =>
-                  `flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium ${
-                    isActive ? 'bg-sidebar-primary text-sidebar-primary-foreground' : 'text-sidebar-foreground hover:bg-sidebar-accent'
-                  }`
-                }
-              >
-                <item.icon className="w-4 h-4" />
-                {item.label}
-              </NavLink>
-            ))}
-          </nav>
         </div>
       )}
     </>

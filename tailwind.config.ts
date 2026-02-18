@@ -13,10 +13,25 @@ export default {
     },
     extend: {
       fontFamily: {
-        // Prefer Futura if installed; fall back to Montserrat (loaded) then Inter/system
-        sans: ['Futura', 'Montserrat', 'Inter', 'system-ui', 'sans-serif'],
+        sans: ["Inter", "sans-serif"],
       },
       colors: {
+        brand: {
+          DEFAULT: "#2563EB",
+          50: "#EFF6FF",
+          100: "#DBEAFE",
+          200: "#BFDBFE",
+          300: "#93C5FD",
+          400: "#60A5FA",
+          500: "#3B82F6",
+          600: "#2563EB",
+          700: "#1D4ED8",
+          800: "#1E40AF",
+          900: "#1E3A8A",
+        },
+        textPrimary: "#111827",
+        textSecondary: "#6B7280",
+        danger: "#DC2626",
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
@@ -78,9 +93,19 @@ export default {
         },
       },
       borderRadius: {
+        DEFAULT: "12px",
         lg: "var(--radius)",
         md: "calc(var(--radius) - 2px)",
         sm: "calc(var(--radius) - 4px)",
+      },
+      boxShadow: {
+        subtle: "0 1px 2px rgba(0,0,0,0.04)",
+      },
+      spacing: {
+        18: "4.5rem",
+      },
+      transitionDuration: {
+        DEFAULT: "200ms",
       },
       keyframes: {
         "accordion-down": {
@@ -99,12 +124,27 @@ export default {
           from: { transform: "translateY(10px)", opacity: "0" },
           to: { transform: "translateY(0)", opacity: "1" },
         },
+        "sidebar-in": {
+          from: { transform: "translateX(-18px) scale(0.98)", opacity: "0" },
+          to: { transform: "translateX(0) scale(1)", opacity: "1" },
+        },
+        "nav-item-in": {
+          from: { transform: "translateY(6px)", opacity: "0" },
+          to: { transform: "translateY(0)", opacity: "1" },
+        },
+        "fade-in-fast": {
+          from: { opacity: "0" },
+          to: { opacity: "1" },
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
         "pulse-slow": "pulse-slow 2s ease-in-out infinite",
         "slide-up": "slide-up 0.3s ease-out",
+        "sidebar-in": "sidebar-in 0.32s cubic-bezier(0.22, 1, 0.36, 1)",
+        "nav-item-in": "nav-item-in 0.28s ease-out both",
+        "fade-in-fast": "fade-in-fast 0.24s ease-out",
       },
     },
   },

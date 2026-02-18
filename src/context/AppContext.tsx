@@ -34,10 +34,50 @@ interface AppContextType extends AppState {
 
 const STORAGE_KEY = 'twinsim-state';
 
+function upgradeDemoCampaigns(campaigns: Campaign[]): Campaign[] {
+  const demoById = new Map(initialCampaigns.map((c) => [c.id, c]));
+
+  return campaigns.map((campaign) => {
+    const demo = demoById.get(campaign.id);
+    if (!demo) return campaign;
+
+    const alreadyUpgraded = typeof campaign.body_html === 'string' && campaign.body_html.includes('max-width:620px');
+    if (alreadyUpgraded) return campaign;
+
+    // Keep user metadata fields, but upgrade demo email content to full-length templates.
+    return {
+      ...campaign,
+      subject: demo.subject,
+      preheader: demo.preheader,
+      body_html: demo.body_html,
+      body_text: demo.body_text,
+      cta_principal: demo.cta_principal,
+      links: demo.links,
+      remetente_from_name: demo.remetente_from_name,
+      remetente_from_email: demo.remetente_from_email,
+    };
+  });
+}
+
+function hasLegacyDemoCampaign(campaigns: Campaign[]): boolean {
+  return campaigns.some((campaign) => {
+    if (!['camp-001', 'camp-002', 'camp-003'].includes(campaign.id)) return false;
+    const html = campaign.body_html || '';
+    // Legacy versions were short and did not include the full email wrapper.
+    return !html.includes('max-width:620px');
+  });
+}
+
 function loadState(): AppState {
   try {
     const saved = localStorage.getItem(STORAGE_KEY);
-    if (saved) return JSON.parse(saved);
+    if (saved) {
+      const parsed = JSON.parse(saved) as AppState;
+      return {
+        ...parsed,
+        campaigns: upgradeDemoCampaigns(parsed.campaigns || []),
+      };
+    }
   } catch {}
   return {
     audiences: initialAudiences,
@@ -66,6 +106,13 @@ export function AppProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
   }, [state]);
+
+  // Runtime safety migration: if user already had the app open with legacy demo emails,
+  // upgrade in-memory state immediately without requiring manual storage reset.
+  useEffect(() => {
+    if (!hasLegacyDemoCampaign(state.campaigns)) return;
+    setState((s) => ({ ...s, campaigns: upgradeDemoCampaigns(s.campaigns) }));
+  }, [state.campaigns]);
 
   const selectAudience = useCallback((id: string | null) => setState((s) => ({ ...s, selectedAudienceId: id })), []);
   const selectCampaign = useCallback((id: string | null) => setState((s) => ({ ...s, selectedCampaignId: id })), []);
