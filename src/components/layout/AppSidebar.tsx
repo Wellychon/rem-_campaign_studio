@@ -1,5 +1,5 @@
 import { NavLink, useLocation } from 'react-router-dom';
-import { LayoutDashboard, Users, Mail, PlusCircle, Play, BarChart3, Lightbulb, GitCompareArrows, Download, FlaskConical } from 'lucide-react';
+import { LayoutDashboard, Users, Mail, PlusCircle, Play, BarChart3, Lightbulb, GitCompareArrows, Download, FlaskConical, Sparkles } from 'lucide-react';
 
 const navItems = [
   { label: 'Dashboard', path: '/dashboard', icon: LayoutDashboard },
@@ -9,6 +9,7 @@ const navItems = [
   { label: 'Resultados', path: '/resultados', icon: BarChart3 },
   { label: 'Insights', path: '/insights', icon: Lightbulb },
   { label: 'Comparar', path: '/comparar', icon: GitCompareArrows },
+  { label: 'Testes A/B', path: '/abtests', icon: Sparkles },
   { label: 'Exportar', path: '/exportar', icon: Download },
 ];
 
