@@ -1,4 +1,4 @@
-# TwinSim Campaign Studio
+# Remí | Campaign Studio
 
 Plataforma web para simulação e gestão de campanhas de e-mail marketing com inteligência preditiva, baseada em grupos de audiência segmentados por clusters comportamentais (twin groups).
 
