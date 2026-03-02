@@ -19,6 +19,7 @@ import AbTests from "@/pages/AbTests";
 import BrandDemo from "@/pages/BrandDemo";
 import ModelPerformance from "@/pages/ModelPerformance";
 import LearnMore from "@/pages/LearnMore";
+import DocumentacaoPOC from "@/pages/DocumentacaoPOC";
 
 const queryClient = new QueryClient();
 
@@ -44,6 +45,7 @@ const App = () => (
               <Route path="/comparar" element={<ComparePage />} />
               <Route path="/abtests" element={<AbTests />} />
               <Route path="/aprender-mais" element={<LearnMore />} />
+              <Route path="/documentacao" element={<DocumentacaoPOC />} />
               <Route path="/marca" element={<BrandDemo />} />
               <Route path="/exportar" element={<ExportPage />} />
             </Route>

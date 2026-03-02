@@ -1,5 +1,5 @@
 import { NavLink, useLocation } from 'react-router-dom';
-import { LayoutDashboard, Users, Mail, PlusCircle, Play, Cpu, Sparkles, Lightbulb, GraduationCap } from 'lucide-react';
+import { LayoutDashboard, Users, Mail, PlusCircle, Play, Cpu, Sparkles, Lightbulb, GraduationCap, FileText } from 'lucide-react';
 import BrandLockup from './BrandLockup';
 
 const navItems = [
@@ -68,6 +68,17 @@ export default function AppSidebar() {
         >
           <GraduationCap className="w-4 h-4 shrink-0" />
           Aprender Mais
+        </NavLink>
+        <NavLink
+          to="/documentacao"
+          className={({ isActive }) =>
+            `flex items-center gap-2 px-3 py-2 rounded-xl text-sm font-medium transition-colors ${
+              isActive ? 'bg-brand text-white shadow-[0_8px_18px_rgba(37,99,235,0.26)]' : 'text-textSecondary hover:bg-sidebar-accent hover:text-brand'
+            }`
+          }
+        >
+          <FileText className="w-4 h-4 shrink-0" />
+          Documentação POC
         </NavLink>
       </div>
 
