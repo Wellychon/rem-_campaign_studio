@@ -21,7 +21,7 @@ Plataforma web para simulação e gestão de campanhas de e-mail marketing com i
 
 ## Visão Geral
 
-O **TwinSim Campaign Studio** permite que equipes de marketing criem, configurem e simulem campanhas de e-mail antes do envio real. A plataforma calcula métricas preditivas (taxa de abertura, CTR, CTOR, bounces, descadastros, ROI) com base em clusters comportamentais da audiência, fornecendo insights acionáveis para otimização de conteúdo, timing e segmentação.
+O **Remí | Campaign Studio** permite que equipes de marketing criem, configurem e simulem campanhas de e-mail antes do envio real. A plataforma calcula métricas preditivas (taxa de abertura, CTR, CTOR, bounces, descadastros, ROI) com base em clusters comportamentais da audiência, fornecendo insights acionáveis para otimização de conteúdo, timing e segmentação.
 
 **Principais funcionalidades:**
 
